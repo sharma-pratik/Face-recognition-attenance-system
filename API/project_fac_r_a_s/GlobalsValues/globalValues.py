@@ -1,0 +1,7 @@
+INVALID_CREDENTIALS = "invalid credentials"
+AUTHENTICATED_USER = "authenticated user"
+ADMIN = "Admin"
+INVALID_USER_TYPE = "invalid user type"
+UNAUTHEORIZED_USER = "unauthorized user"
+UNKNOWN_ERROR = "unknown_error"
+DELETED = "deleted"
