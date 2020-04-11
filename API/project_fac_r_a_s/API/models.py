@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext as _
-
+import uuid
 # Create your models here.
 
 class Admin(models.Model):
@@ -36,19 +36,20 @@ class Faculty(models.Model):
         verbose_name = _("Faculty_model")
 
     def __str__(self):
-        return "name: "+self.full_name+"gtu_id: "+self.gtu_id
+        return "name: "+self.full_name+" gtu_id: "+str(self.faculty_id)
 
     full_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True, default=None, max_length=50)
     password = models.CharField(default=None, max_length=50)
-    gtu_id = models.IntegerField()
+    faculty_id = models.IntegerField()
     branch = models.CharField(max_length=30, choices=branch_choices)
     create_management_id = models.ForeignKey("CollegeManagement",null=True, on_delete=models.DO_NOTHING)
-    create_hod_id = models.IntegerField(default=None, null=True)
+    create_hod_id = models.IntegerField(null=True)
     faculty_type_hod = models.BooleanField()
     college = models.ForeignKey("College", on_delete=models.CASCADE)
 
 class Subject(models.Model):
+
     branch_choices = [
         ('Computer', 'Comp'),
         ('Mechanical', 'Mech'),
@@ -60,9 +61,10 @@ class Subject(models.Model):
     subject_name = models.CharField(default=None, max_length=50)
     branch = models.CharField(max_length=30, choices=branch_choices)
     subject_code = models.IntegerField()
-    faculty  = models.ForeignKey("Faculty",on_delete=models.DO_NOTHING)
+    faculty = models.ForeignKey("Faculty",on_delete=models.DO_NOTHING)
     college = models.ForeignKey("College", on_delete=models.CASCADE)
-
+    azure_person_group = models.ForeignKey("AzurePersonGroup", on_delete=models.DO_NOTHING, null=True)
+    alpha_numeric_id = models.CharField(max_length=100, unique=True, null=False, default=str(uuid.uuid4()), editable=False, help_text='no need to add', auto_created=True)
 
 class Periods(models.Model):
     weekday_choices = [
@@ -79,12 +81,9 @@ class Periods(models.Model):
         verbose_name = _("")
         verbose_name_plural = _("s")
 
-    def __str__(self):
-        return self.name
-
     period_number = models.IntegerField()
     semester = models.IntegerField()
-    subject = models.ForeignKey("Subject",on_delete=models.CASCADE)
+    subject = models.ForeignKey("Subject",on_delete=models.CASCADE, default=None)
     week_day = models.CharField(max_length=10, choices=weekday_choices)
     subject_type_theory = models.BooleanField()
     room_number = models.IntegerField(null=True)
@@ -104,11 +103,11 @@ class AttendanceTracking(models.Model):
 class Student(models.Model):
     
     branch_choices = [
-        ('Computer', 'Comp'),
-        ('Mechanical', 'Mech'),
-        ('Information Technology', 'IT'),
-        ('Electrical', 'Elect'),
-        ('Electronic and communication', 'EC'),
+        ('Comp', 'Computer'),
+        ('Mech', 'Mechanical'),
+        ('IT', 'Information Technology'),
+        ('Elect', 'Electrical'),
+        ('EC', 'Electronic and communication'),
     ]
 
     status = [
@@ -126,32 +125,48 @@ class Student(models.Model):
         return self.full_name
 
     full_name = models.CharField(max_length=50)
-    email = models.EmailField( default=None, max_length=50)
-    temperory_id = models.BigIntegerField()
+    email = models.EmailField(default=None, max_length=50)
+    temperory_id = models.BigIntegerField(null=True)
     enrollment_id = models.BigIntegerField()
     semester_number = models.IntegerField()
-    branch = models.CharField(max_length=30, choices=branch_choices)
-    batch_year = models.CharField(max_length=50)
+    branch = models.CharField(max_length=50, choices=branch_choices, default=None)
+    college = models.ForeignKey("College", on_delete=models.CASCADE, null=True)
+    batch_year = models.CharField(max_length=50, default=None)
     sem_start_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     sem_end_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     student_status = models.CharField(max_length=20, choices=status)
     faculty = models.ForeignKey("Faculty", on_delete=models.DO_NOTHING)
     password = models.CharField(default=None, max_length=50)
     email_sent = models.BooleanField(default=False)
-    college = models.ForeignKey("College", on_delete=models.CASCADE)
+    azure_person_group = models.ForeignKey("AzurePersonGroup", on_delete=models.DO_NOTHING, null=True)
+    azure_person_id  = models.CharField(max_length=50, null=True)
+    aws_s3_storage_folder_name = models.CharField(max_length=100, null=True)
 
-class AzureStudentFaces(models.Model):
-    student = models.ForeignKey("Student",on_delete=models.CASCADE)
-    azure_person_group_name = models.CharField(max_length=50)
-    azure_person_id  = models.CharField(max_length=50)
 
 class StudentFaceUrl(models.Model):
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     url = models.CharField(max_length=600)
 
 class StudentAttendance(models.Model):
-    student = models.ForeignKey("Student", on_delete=models.CASCADE)
-    subject = models.ForeignKey("Subject", on_delete=models.DO_NOTHING)
-    total_subject_lectures = models.IntegerField()
+    student = models.ForeignKey("Student", on_delete=models.CASCADE, default=None)
+    subject = models.ForeignKey("Subject", on_delete=models.CASCADE, default=None)
+    total_lectures = models.IntegerField()
     total_attend  = models.IntegerField()
     total_absent = models.IntegerField()
+    total_lectures_taken = models.IntegerField(default=None)
+
+class AzurePersonGroup(models.Model):
+
+    branch_choices = [
+        ('Comp', 'Computer'),
+        ('Mech', 'Mechanical'),
+        ('IT', 'Information Technology'),
+        ('Elect', 'Electrical'),
+        ('EC', 'Electronic and communication'),
+    ]
+
+    person_group_id = models.CharField(max_length=100)
+    person_group_name = models.CharField(max_length=100)
+    college = models.ForeignKey("College", on_delete=models.CASCADE)
+    batch_year = models.CharField(max_length=50)
+    branch = models.CharField(max_length=30, choices=branch_choices)

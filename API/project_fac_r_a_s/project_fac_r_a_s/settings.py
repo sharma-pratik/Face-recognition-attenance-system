@@ -16,7 +16,6 @@ from pytz import all_timezones as tz
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -28,7 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AWSAccessKeyId="AKIAJ6KV33T2DHT2YUUA"
+AWSSecretKey="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"
+AzureKey = "acd260c437d34b3f82cbf62bf31a2faf"
+AzureEndpoint = "https://westcentralus.api.cognitive.microsoft.com"
+JWTTokenSecretKey = "57194159b4ce67a48fab74f78a77f7665e0ecf733abd5f29610567b9eed2f6d425"
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,7 +83,7 @@ WSGI_APPLICATION = 'project_fac_r_a_s.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'fac_r_a_s_db',
+        'NAME': 'face_detection_project_db',
         'USER': 'mysql_user',
         'PASSWORD': 'Mysqlconnect@123',
         'HOST': 'localhost',
@@ -88,7 +91,7 @@ DATABASES = {
     }
 }
 
-
+DEFAULT_FILE_STORAGE = ""
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
