@@ -1,184 +1,219 @@
-
-// import 'package:flutter/material.dart';
-
-// void main() => runApp(MyApp());
-
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         // This is the theme of your application.
-//         //
-//         // Try running your application with "flutter run". You'll see the
-//         // application has a blue toolbar. Then, without quitting the app, try
-//         // changing the primarySwatch below to Colors.green and then invoke
-//         // "hot reload" (press "r" in the console where you ran "flutter run",
-//         // or simply save your changes to "hot reload" in a Flutter IDE).
-//         // Notice that the counter didn't reset back to zero; the application
-//         // is not restarted.
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyHomePage(title: 'Home Page'),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatefulWidget {
-//   MyHomePage({Key key, this.title}) : super(key: key);
-
-//   // This widget is the home page of your application. It is stateful, meaning
-//   // that it has a State object (defined below) that contains fields that affect
-//   // how it looks.
-
-//   // This class is the configuration for the state. It holds the values (in this
-//   // case the title) provided by the parent (in this case the App widget) and
-//   // used by the build method of the State. Fields in a Widget subclass are
-//   // always marked "final".
-
-//   final String title;
-
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   int _counter = 0;
-
-//   void _incrementCounter() {
-//     setState(() {
-//       // This call to setState tells the Flutter framework that something has
-//       // changed in this State, which causes it to rerun the build method below
-//       // so that the display can reflect the updated values. If we changed
-//       // _counter without calling setState(), then the build method would not be
-//       // called again, and so nothing would appear to happen.
-//       _counter++;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // This method is rerun every time setState is called, for instance as done
-//     // by the _incrementCounter method above.
-//     //
-//     // The Flutter framework has been optimized to make rerunning build methods
-//     // fast, so that you can just rebuild anything that needs updating rather
-//     // than having to individually change instances of widgets.
-//     return Scaffold(
-//       appBar: AppBar(
-//         // Here we take the value from the MyHomePage object that was created by
-//         // the App.build method, and use it to set our appbar title.
-//         title: Text(widget.title),
-//       ),
-//       body: Center(
-//         // Center is a layout widget. It takes a single child and positions it
-//         // in the middle of the parent.
-//         child: Column(
-//           // Column is also a layout widget. It takes a list of children and
-//           // arranges them vertically. By default, it sizes itself to fit its
-//           // children horizontally, and tries to be as tall as its parent.
-//           //
-//           // Invoke "debug painting" (press "p" in the console, choose the
-//           // "Toggle Debug Paint" action from the Flutter Inspector in Android
-//           // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-//           // to see the wireframe for each widget.
-//           //
-//           // Column has various properties to control how it sizes itself and
-//           // how it positions its children. Here we use mainAxisAlignment to
-//           // center the children vertically; the main axis here is the vertical
-//           // axis because Columns are vertical (the cross axis would be
-//           // horizontal).
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               'You have pushed the button this many times:',
-//             ),
-//             Text(
-//               '$_counter',
-//               style: Theme.of(context).textTheme.display1,
-//             ),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _incrementCounter,
-//         tooltip: 'Increment',
-//         child: Icon(Icons.add),
-//       ), // This trailing comma makes auto-formatting nicer for build methods.
-//     );
-//   }
-// }
-
-
+import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'dart:async';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main(List<String> args) {
-  runApp(
-   new MyApp()
-  );
-}
+import 'routes/UserLoginHome.dart';
 
-class MyApp extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context){
-    return new MaterialApp(
-      title: "Flutter new app",
-      home: HomePage(),
-      theme: new ThemeData(
-        brightness: Brightness.dark
-      ),
-    );
-  }
-}
+void main() => runApp(new FaceDetectionApp());
 
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-
-class _HomePageState extends State<HomePage> {
-
-  String text = "this is unchanged text";
-
-  void _changeText(){
-    setState(() {
-      if(text.contains("unchanged")){
-        text = "this is changed text";
-      }else{
-        print(text);
-        text = "this is unchanged text";
-      }
-    });
-  }
-  
-  Widget _bodyWidget(){
-    print("called container");
-    return new Container(
-      padding: const EdgeInsets.all(8.1),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Text(text, style: new TextStyle(color: Colors.red),),
-        ],
-      )
-    );
-  }
+class FaceDetectionApp extends StatelessWidget {
+  const FaceDetectionApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(title: new Text("this is appbar"),),
-      body: _bodyWidget(),
-      floatingActionButton: FloatingActionButton(onPressed: _changeText, child: new Icon(Icons.add_a_photo),),
-    );
-  }
+
+      return new MaterialApp(
+          theme: new ThemeData( canvasColor: Color(0xff343434)),
+          home: UserLoginHome()
+      );
+    }
 }
+
+
+// Saffold widget for containing login form
+// class LoginHome extends StatefulWidget {
+//   LoginHome({Key key}) : super(key: key);
+
+//   @override
+//   _LoginHomeState createState() => _LoginHomeState();
+// }
+
+// class _LoginHomeState extends State<LoginHome> {
+
+// //  password input fields variables
+
+
+// @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     userData = _prefs.then((SharedPreferences prefs){
+//       return (prefs.getString('sf_user_data')?? "");
+//     });
+//     print("value of session $session_id");
+//     print("value of share prefences $userData");
+//   }
+
+// // method for changing pwd field icons
+//   void changePasswordView(){
+    
+//     setState(() {
+//       _obscureText = ! _obscureText;
+
+//       if (_obscureText){
+//         _activeObscureIcon = Image.asset("assets/visible_eye.png");
+//       }
+//       else{
+//         _activeObscureIcon = Image.asset("assets/hide_eye.png");
+//       }
+//     });
+//   }
+
+//   void _cleanAllValues(){
+//     setState(() {
+//       postEmailError = null;
+//       postDropDownError = "";
+//       postPasswordError = null;
+//     });
+//   }
+
+//   // User login 
+//   void _userLoginTaks() async{
+//       SharedPreferences preferences = await SharedPreferences.getInstance();
+//       String data = preferences.getString('sf_user_data');
+//       print("login clicked $postEmailError and $data and session id $session_id");
+//       _cleanAllValues();
+
+
+//       if(_globalKey.currentState.validate()){
+//         print("all fields are valid");
+//         _globalKey.currentState.save();
+
+//           // fetching csrf token
+//           Future<String> fetchCsrfToken() async {
+//               var response = await http.get(
+               
+//               );
+//               return response.body;
+//           }
+
+//           // checking valid response 
+//           fetchCsrfToken().then(
+//             (successResp){
+
+//               String csrfTokenValue = successResp;
+//               var userData = {};
+//               userData["user_type"] = dropdownValue;
+//               userData["email"] = validEmailValue;
+//               userData["password"] = validPWDValue;
+
+//               Future<Map> authenticatingUser() async {
+//                   var response = await http.post(
+//                   Uri.encodeFull(loginUrl),
+//                   body:jsonEncode(userData),
+//                   headers: {
+//                     "accept":"",
+//                     "":csrfTokenValue,
+//                     "Content-Type":"application/json",
+//                   }
+//                 );
+                
+//                 Map<String, dynamic> resp ={};
+//                 resp["body"] = json.decode(json.decode(response.body));
+//                 resp["status_code"] = response.statusCode;
+//                 return resp;
+//               }
+//               // validating response
+//               authenticatingUser().then(
+//                 (resp){
+//                   print(resp);
+
+//                   if(resp['status_code']==401){
+
+//                     if (resp['body']['data'][0]['email'].isNotEmpty){
+
+//                       setState(() {
+//                         postEmailError = resp['body']['data'][0]['email'];
+//                         _globalKey.currentState.validate();
+//                       });
+//                     }
+//                     else if (resp['body']['data']['password'] != null){
+//                       setState(() {
+//                         postPasswordError =  resp['body']['data']['password'];
+//                         _globalKey.currentState.validate();
+//                       });
+//                     }
+//                   }
+//                   else if (resp['status_code']==400){
+//                       setState(() {
+//                       postDropDownError = resp['body']['data'];
+//                     });
+//                   }
+//                   else if (resp['status_code']==202){
+//                     setSPValues(resp['body']['data']);
+//                   }
+//                   else{
+//                     print(resp['status_code']);
+//                     print(resp['body']);
+//                   }
+//                   print("autovalide after making false $autoValidate");
+//                 }
+//               ).catchError((error){
+//                 print("error is coming $error");
+//               });
+//             }
+//           ).catchError(
+//             (errorResp){
+//               print("error is coming $errorResp");
+//             }
+//           );
+//         }else{
+
+//         }
+//     }
+
+//   // validate email
+//   String validateEmail(String email, [bool emailResp]){
+//     print("validating email");
+//     String regPattern = r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}";
+//     RegExp regExp = new RegExp(regPattern);
+
+//     if( postEmailError == null){
+//       if(email.isNotEmpty){
+//         if (regExp.hasMatch(email)){
+//               return null;
+//           }
+//         return "Email format not valid";
+//       }
+//       return "Email can not be empty";
+//     }
+//     return postEmailError;
+//   }
+
+//   // validate password
+//   String validatePwd(value){
+//     print("validating password");
+//     if(postPasswordError==null){
+//       if(value.isNotEmpty){
+//         return null;
+//       }
+//       return "Password can not be empty";
+//     }
+//       return postPasswordError;
+//   }
+
+
+//   // set value in shared preferences
+
+//   Future<void> setSPValues(data) async{
+
+//     final SharedPreferences prefs = await _prefs;
+//       setState(() {
+//           session_id = data['session_id'];
+//           var encodeUserData = json.encode(data['user_data']);
+//           print(encodeUserData is String);
+//           prefs.setString('sf_user_data', encodeUserData);
+//           print(prefs.getString('sf_user_data'));
+//       });
+//   }
+
+//   // variables
+  
+
+  
+// }

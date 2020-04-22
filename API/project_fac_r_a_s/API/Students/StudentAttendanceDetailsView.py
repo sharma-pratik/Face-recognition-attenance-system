@@ -47,7 +47,7 @@ class StudentAttendanceDetailsView(APIView):
         else:
             return Response(
                     data=json.dumps({
-                        "msg":"Please login to ",
+                        "msg":"Please login to continue",
                         "data":[],
                         "status":"error"
                     }),

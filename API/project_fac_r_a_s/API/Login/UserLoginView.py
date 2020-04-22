@@ -9,14 +9,13 @@ import json
 class UserLoginView(APIView):
 
     def post(self, request):
-        print(request.headers, request.user.is_authenticated)
+        print(request.headers, request.user.is_authenticated, request.session.items(), request.session.session_key)
 
         if not request.user.is_authenticated:
             
             UserAuthenticateresponse = UserAuthentication().handlingUserLoginTask(request)
 
-            if UserAuthenticateresponse["status"]=="error" and UserAuthenticateresponse["msg"] == INVALID_CREDENTIALS:
-                print("UserAuthenticateresponse ",UserAuthenticateresponse )
+            if UserAuthenticateresponse["status"]=="invalid" and UserAuthenticateresponse["msg"] == INVALID_CREDENTIALS:
 
                 return Response(
                     data=json.dumps(UserAuthenticateresponse),

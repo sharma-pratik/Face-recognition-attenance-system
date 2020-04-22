@@ -25,7 +25,7 @@ SECRET_KEY = 'e0!qiikv$_9*2(!58x&cgwbwra8(751^#&b^ef1p*fj(4=(s+5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "192.168.1.100", "10.0.2.2", "127.0.0.1"]
 
 AWSAccessKeyId="AKIAJ6KV33T2DHT2YUUA"
 AWSSecretKey="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"

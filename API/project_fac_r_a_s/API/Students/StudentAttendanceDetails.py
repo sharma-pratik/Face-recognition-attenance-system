@@ -27,9 +27,13 @@ class StudentAttendanceDetails:
                 ).values('total_lectures', 'total_attend', 'subject__subject_name')
             )
 
+            for each in lectures_details:
+                val = each.pop("subject__subject_name")
+                each["subject_name"] = val
+
             final_data = {}
-            final_data["total_overview"] = totalAttendanceOverview
-            final_data["subject_overview"] = lectures_details
+            final_data["total"] = totalAttendanceOverview
+            final_data["subjects"] = lectures_details
 
             self.response_data["msg"] = ""
             self.response_data["data"] = final_data

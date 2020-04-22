@@ -25,7 +25,13 @@ class StudentFacesAssignationView(APIView):
                         status=status.HTTP_202_ACCEPTED
                     )
                 
-                elif AssignationResp['status']=="invalid":
+                elif AssignationResp['status']==INVALID_FORMAT:
+                    return Response(
+                        data=json.dumps(AssignationResp),
+                        status=status.HTTP_406_NOT_ACCEPTABLE
+                    )
+
+                elif AssignationResp['status']=="invalid request type":
                     return Response(
                         data=json.dumps(AssignationResp),
                         status=status.HTTP_400_BAD_REQUEST
@@ -34,18 +40,13 @@ class StudentFacesAssignationView(APIView):
                 elif AssignationResp['status']=="error":
                     return Response(
                         data=json.dumps(AssignationResp),
-                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                        status=status.HTTP_501_NOT_IMPLEMENTED
                     )
 
                 elif AssignationResp['status']=="server_error":
                     return Response(
                         data=json.dumps(AssignationResp),
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                    )
-                elif AssignationResp['status']=="training_error":
-                    return Response(
-                        data=json.dumps(AssignationResp),
-                        status=status.HTTP_501_NOT_IMPLEMENTED
                     )
                 else:
                     return Response(
@@ -65,7 +66,7 @@ class StudentFacesAssignationView(APIView):
         else:
             return Response(
                     data=json.dumps({
-                        "msg":"Please login to ",
+                        "msg":"Please login to continue",
                         "data":[],
                         "status":"error"
                     }),
