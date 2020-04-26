@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["localhost", "192.168.1.100", "10.0.2.2", "127.0.0.1"]
 
 AWSAccessKeyId="AKIAJ6KV33T2DHT2YUUA"
 AWSSecretKey="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"
-AzureKey = "acd260c437d34b3f82cbf62bf31a2faf"
+AzureKey = "b4c06d037a4447929c811ac3b9b735f6"
 AzureEndpoint = "https://westcentralus.api.cognitive.microsoft.com"
 JWTTokenSecretKey = "57194159b4ce67a48fab74f78a77f7665e0ecf733abd5f29610567b9eed2f6d425"
 # Application definition
